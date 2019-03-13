@@ -26,36 +26,18 @@ RUN conda install -c conda-forge jupyter_nbextensions_configurator \
 # Install the R kernel
 RUN conda install -c r r-irkernel
 
+# Create users
+RUN useradd --create-home --shell /bin/bash brent
+RUN useradd --create-home --shell /bin/bash dean
+RUN useradd --create-home --shell /bin/bash david
+
+# Setup volumes
+VOLUME /home/brent/notebooks
+VOLUME /home/dean/notebooks
+VOLUME /home/david/notebooks
+
 # Copy in the JupyterHub configurations
 COPY jupyterhub_config.py /
-
-# Create shared directory
-RUN mkdir -p /home/shares
-VOLUME /shares
-
-# Create users
-RUN useradd --create-home --shell /bin/bash brent --password PfizerJupyter
-RUN useradd --create-home --shell /bin/bash dean --password PfizerJupyter
-RUN useradd --create-home --shell /bin/bash david --password PfizerJupyter
-
-# Setup users
-USER brent
-WORKDIR /home/brent
-RUN mkdir -p /home/brent/notebooks
-VOLUME /home/brent/notebooks
-RUN ln -s /shares
-
-USER dean
-WORKDIR /home/dean
-RUN mkdir -p /home/dean/notebooks
-VOLUME /home/dean/notebooks
-RUN ln -s /shares
-
-USER david
-WORKDIR /home/david
-RUN mkdir -p /home/david/notebooks
-VOLUME /home/david/notebooks
-RUN ln -s /shares
 
 USER root
 WORKDIR /
