@@ -14,13 +14,6 @@ https://github.com/brentjm/docker-jupyterhub.git
 Add/remove kernels by editing the Dockerfile
 Add/remove user accounts by editing the Dockerfile
 
-### Create some directories for the container to mount
-
-```bash
-mkdir shares
-```
-mkdir <username> 
-
 ### Build the image
 
 ```bash
@@ -31,6 +24,15 @@ docker build -t juypterhub .
 
 ```bash
 docker run -p 8000:8000 -d --name jupyterhub -v shares:/shares -v <username>:/home/<username>/notebooks jupyterhub
+```
+
+## Find your data
+```bash
+docker volume ls
+```
+
+```bash
+docker volume inspect <volume_name>
 ```
 
 ## Configure the JuyterHub instance

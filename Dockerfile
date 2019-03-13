@@ -35,25 +35,30 @@ VOLUME /shares
 
 # Create users
 RUN useradd --create-home --shell /bin/bash brent --password PfizerJupyter
-WORKDIR /home/brent
+RUN useradd --create-home --shell /bin/bash dean --password PfizerJupyter
+RUN useradd --create-home --shell /bin/bash david --password PfizerJupyter
+
+# Setup users
 USER brent
+WORKDIR /home/brent
 RUN mkdir -p /home/brent/notebooks
 VOLUME /home/brent/notebooks
 RUN ln -s /shares
 
-RUN useradd --create-home --shell /bin/bash dean --password PfizerJupyter
-WORKDIR /home/dean
 USER dean
+WORKDIR /home/dean
 RUN mkdir -p /home/dean/notebooks
 VOLUME /home/dean/notebooks
 RUN ln -s /shares
 
-RUN useradd --create-home --shell /bin/bash david --password PfizerJupyter
-WORKDIR /home/david
 USER david
+WORKDIR /home/david
 RUN mkdir -p /home/david/notebooks
 VOLUME /home/david/notebooks
 RUN ln -s /shares
+
+USER root
+WORKDIR /
 
 # Setup application
 EXPOSE 8000
