@@ -23,7 +23,7 @@ docker build -t juypterhub .
 ### Run the image
 
 ```bash
-docker run -p 8000:8000 -d --name jupyterhub -v shares:/shares -v <username>:/home/<username>/notebooks jupyterhub
+docker run -p 8000:8000 -d --name jupyterhub jupyterhub
 ```
 
 ## Find your data
