@@ -3,13 +3,23 @@ FROM continuumio/miniconda3:latest
 Label Brent Maranzano <Brent.Maranzano@pfizer.com>
 
 # Install all OS dependencies for fully functional notebook server
-RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y \
+    software-properties-common \
     git \
     nano \
     unzip \
+    gnupg \
+    r-base \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Install the CRAN version of R instead of package manager above
+#ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
+#RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+#RUN add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/'
+#RUN apt-get install -y r-base
+##RUN apt-get install -y r-base
 
 # Install conda and Jupyter
 RUN conda update -y conda
