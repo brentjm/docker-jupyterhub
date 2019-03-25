@@ -11,6 +11,7 @@ RUN apt-get install -y \
     unzip \
     gnupg \
     r-base \
+    octave \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -36,24 +37,18 @@ RUN conda install -c conda-forge jupyter_nbextensions_configurator \
 # Install the R kernel
 RUN conda install -c r r-irkernel
 
-# Create users
-RUN useradd --create-home --shell /bin/bash brent
-RUN useradd --create-home --shell /bin/bash dean
-RUN useradd --create-home --shell /bin/bash david
+# Install the Octave kernel
+RUN conda install -c conda-forge octave_kernel
 
-# Setup volumes
-VOLUME /home/brent/notebooks
-VOLUME /home/dean/notebooks
-VOLUME /home/david/notebooks
+RUN useradd --create-home --shell /bin/bash brent
 
 # Copy in the JupyterHub configurations
 COPY jupyterhub_config.py /
 
-USER root
-WORKDIR /
+#COPY docker_configuration.sh /
+#RUN chmod +x /docker_configuration.sh
 
 # Setup application
 EXPOSE 8000
 
-#CMD ["jupyterhub", "--ip='*'", "--port=8000", "--allow-root"]
 CMD ["jupyterhub"]

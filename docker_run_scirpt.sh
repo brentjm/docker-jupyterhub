@@ -1,4 +1,7 @@
 #!/bin/bash
 
-#docker run -d -p 8001:8000 -v shares:/shares -v brent:/home/brent/notebooks -v dean:/home/dean/notebooks -v david:/home/david/notebooks --name jupyterhub jupyterhub
-docker run -d -p 8001:8000 --name dsrdjupyterhub jupyterhub
+
+mkdir work
+docker run -d -p 8000:8000 --name jupyterhub --volume $(pwd)/work:/shares jupyterhub
+
+docker exec jupyterhub /docker_configuration.sh
